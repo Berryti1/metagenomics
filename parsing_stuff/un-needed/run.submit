@@ -1,0 +1,16 @@
+universe = vanilla
+
+executable = wrapper.sh
+arguments = input.fastq.gz test_output.$(CLUSTER).$(PROCESS)
+requirements = (OpSysMajorVer == 7)
+
+transfer_input_files = python.tar.gz, parse.py, input.fastq.gz
+
+output = out.$(CLUSTER).$(PROCESS)
+error = err.$(CLUSTER).$(PROCESS)
+log = log
+
+request_memory = 2GB
+request_disk = 1GB
+
+queue 1

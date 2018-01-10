@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#Script was used in testing the installation of fastQC, it was only ever used 
+#in interactive jobs it never actually uses fastQC on anything, just sets it up
+
+
+#Untar java install and move it into directory
+tar -xzf jre-8u144-linux-x64.tar.gz
+export PATH=$(pwd)/jre1.8.0_144/bin:$PATH
+
+#Unzip FastQC
+unzip fastqc_v0.11.5.zip
+
+#Make fastqc executable
+cd FastQC
+chmod +x fastqc
+
+#Go back to home and put fastqc in path
+cd ../
+export PATH=$(pwd)/FastQC:$PATH
+
+
+#Remove extraneous files
+rm -rf test_outputs.pe* Trimmomatic-0.36.zip jre-8u144-linux-x64.tar.gz Trimmomatic_CMD
+

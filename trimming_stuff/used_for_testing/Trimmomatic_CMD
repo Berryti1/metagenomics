@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#A script used to test trimmomatic on specific (hard coded) test files used during early tests of the pipeline
+
+
+#Untar java install and move it into directory 
+tar -xzf jre-8u144-linux-x64.tar.gz
+export PATH=$(pwd)/jre1.8.0_144/bin:$PATH
+
+#Unzip Trimmomatic
+unzip Trimmomatic-0.36.zip
+
+#Command calls trimmomatic on files test_outputs.pe*.fq and names outputs, and specifies trimming parameters. Also includes path to sequencing adapters to remove.
+java -jar ./Trimmomatic-0.36/trimmomatic-0.36.jar PE -phred33 test_outputs.pe1.fq test_outputs.pe2.fq output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:./Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+
+#Remove extraneous files
+rm -rf test_outputs.pe* Trimmomatic-0.36.zip jre-8u144-linux-x64.tar.gz Trimmomatic_CMD

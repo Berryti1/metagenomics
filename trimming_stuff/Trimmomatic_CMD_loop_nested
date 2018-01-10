@@ -1,0 +1,36 @@
+#!/bin/sh
+
+#Untar java install and move it into directory 
+tar -xzf jre-8u144-linux-x64.tar.gz
+export PATH=$(pwd)/jre1.8.0_144/bin:$PATH
+
+#Unzip Trimmomatic
+unzip Trimmomatic-0.36.zip
+
+#copy deinterleaved files from gluster to current directory
+cp /mnt/gluster/tdberry/2*_deinterleaved.tar.gz ./
+
+#extract deinterleaved file, and remove the archived one to save space
+for file in 20*_deinterleaved.tar.gz;
+do tar -xzvf $file
+rm $file
+
+###########BEGIN INNER LOOP###############
+#runs trimmomatic on all of the .peX.fq files
+
+for x in 2*_MG_QC.fastq.gz.pe1.fq;
+do java -jar ./Trimmomatic-0.36/trimmomatic-0.36.jar PE -phred33 $x ${x%.pe1*}.pe2.fq ${x%.pe1*}.r1.pe ${x%.pe1*}.r1.se ${x%.pe1*}.r2.pe ${x%.pe1*}.r2.se ILLUMINACLIP:./Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+rm $x ${x%.pe1*}.pe2.fq
+done
+
+##########END INNER LOOP#################
+done
+
+tar -czvf trimmed_pe1_n.tar.gz *.r1.pe
+tar -czvf trimmed_pe2_n.tar.gz *.r2.pe
+tar -czvf trimmed_se_n.tar.gz *.se 
+
+cp trimmed*.tar.gz /mnt/gluster/tdberry
+
+#Remove extraneous files
+rm -rf  *.tar.gz *.zip *.se *.pe *.fq Trimmomatic_CMD_loop_nested
