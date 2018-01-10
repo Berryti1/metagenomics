@@ -11,7 +11,7 @@ unzip Trimmomatic-0.36.zip
 cp /mnt/gluster/tdberry/2*_deinterleaved.tar.gz ./
 
 #extract deinterleaved file, and remove the archived one to save space
-for file in 20*_deinterleaved.tar.gz;
+for file in 2*_deinterleaved.tar.gz;
 do tar -xzvf $file
 rm $file
 
@@ -26,9 +26,9 @@ done
 ##########END INNER LOOP#################
 done
 
-tar -czvf trimmed_pe1_n.tar.gz *.r1.pe
-tar -czvf trimmed_pe2_n.tar.gz *.r2.pe
-tar -czvf trimmed_se_n.tar.gz *.se 
+tar -czvf trimmed_pe1.tar.gz *.r1.pe
+tar -czvf trimmed_pe2.tar.gz *.r2.pe
+tar -czvf trimmed_se.tar.gz *.se 
 
 cp trimmed*.tar.gz /mnt/gluster/tdberry
 
