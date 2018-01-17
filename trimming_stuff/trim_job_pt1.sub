@@ -1,19 +1,19 @@
 universe = vanilla
 # Name the log file:
-log = interactive.log
+log = trim_job_pt1.log
 
 # Name the files where standard output and error should be saved:
-output = process.out
-error = process.err
+output = trim_pt1.out
+error = trim_pt1.err
 
 # If you wish to compile code, you'll need the below lines. 
 #  Otherwise, LEAVE THEM OUT if you just want to interactively test!
 requirements = (OpSys == "LINUX") && (OpSysMajorVer == 7) && (Target.HasGluster == true)
 
-
-# Indicate all files that need to go into the interactive job session,
+# Indicate all files that need to go into the job session,
 # including any tar files that you prepared:
-transfer_input_files = jre-8u144-linux-x64.tar.gz, Trimmomatic-0.36.zip, fastqc_v0.11.5.zip, Trimmomatic_CMD_loop_nested 
+executable = Trimmomatic_nested_pt1
+transfer_input_files = jre-8u144-linux-x64.tar.gz, Trimmomatic-0.36.zip, fastqc_v0.11.5.zip 
 
 # It's still important to request enough computing resources. The below 
 #  values are a good starting point, but consider your file sizes for an
@@ -21,6 +21,6 @@ transfer_input_files = jre-8u144-linux-x64.tar.gz, Trimmomatic-0.36.zip, fastqc_
 #  for "memory" and/or "cpus".
 request_cpus = 2
 request_memory = 4GB
-request_disk = 250GB
+request_disk = 450GB
 
 queue
